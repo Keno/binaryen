@@ -95,6 +95,8 @@ private:
         // v128 not implemented yet
         return false;
       }
+      case anyref:
+      case funcref:
       case exnref: {
         // exnref cannot have literals
         return false;

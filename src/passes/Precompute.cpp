@@ -115,6 +115,8 @@ public:
     return Flow(NOTPRECOMPUTABLE_FLOW);
   }
   Flow visitGlobalSet(GlobalSet* curr) { return Flow(NOTPRECOMPUTABLE_FLOW); }
+  Flow visitTableGet(TableGet* curr) { return Flow(NOTPRECOMPUTABLE_FLOW); }
+  Flow visitTableSet(TableSet* curr) { return Flow(NOTPRECOMPUTABLE_FLOW); }
   Flow visitLoad(Load* curr) { return Flow(NOTPRECOMPUTABLE_FLOW); }
   Flow visitStore(Store* curr) { return Flow(NOTPRECOMPUTABLE_FLOW); }
   Flow visitAtomicRMW(AtomicRMW* curr) { return Flow(NOTPRECOMPUTABLE_FLOW); }

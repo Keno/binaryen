@@ -122,6 +122,8 @@ struct ReFinalize
   void visitLocalSet(LocalSet* curr);
   void visitGlobalGet(GlobalGet* curr);
   void visitGlobalSet(GlobalSet* curr);
+  void visitTableGet(TableGet* curr);
+  void visitTableSet(TableSet* curr);
   void visitLoad(Load* curr);
   void visitStore(Store* curr);
   void visitAtomicRMW(AtomicRMW* curr);
@@ -181,6 +183,8 @@ struct ReFinalizeNode : public OverriddenVisitor<ReFinalizeNode> {
   void visitLocalSet(LocalSet* curr) { curr->finalize(); }
   void visitGlobalGet(GlobalGet* curr) { curr->finalize(); }
   void visitGlobalSet(GlobalSet* curr) { curr->finalize(); }
+  void visitTableGet(TableGet* curr) { curr->finalize(); }
+  void visitTableSet(TableSet* curr) { curr->finalize(); }
   void visitLoad(Load* curr) { curr->finalize(); }
   void visitStore(Store* curr) { curr->finalize(); }
   void visitAtomicRMW(AtomicRMW* curr) { curr->finalize(); }

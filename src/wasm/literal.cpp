@@ -138,6 +138,8 @@ void Literal::getBits(uint8_t (&buf)[16]) const {
       memcpy(buf, &v128, sizeof(v128));
       break;
     case Type::exnref: // exnref type is opaque
+    case Type::anyref:
+    case Type::funcref:
     case Type::none:
     case Type::unreachable:
       WASM_UNREACHABLE();
@@ -273,6 +275,8 @@ std::ostream& operator<<(std::ostream& o, Literal literal) {
       literal.printVec128(o, literal.getv128());
       break;
     case Type::exnref: // exnref type is opaque
+    case Type::funcref:
+    case Type::anyref:
     case Type::unreachable:
       WASM_UNREACHABLE();
   }
@@ -476,6 +480,8 @@ Literal Literal::eqz() const {
       return eq(Literal(double(0)));
     case Type::v128:
     case Type::exnref:
+    case Type::funcref:
+    case Type::anyref:
     case Type::none:
     case Type::unreachable:
       WASM_UNREACHABLE();
@@ -495,6 +501,8 @@ Literal Literal::neg() const {
       return Literal(int64_t(i64 ^ 0x8000000000000000ULL)).castToF64();
     case Type::v128:
     case Type::exnref:
+    case Type::funcref:
+    case Type::anyref:
     case Type::none:
     case Type::unreachable:
       WASM_UNREACHABLE();
@@ -514,6 +522,8 @@ Literal Literal::abs() const {
       return Literal(int64_t(i64 & 0x7fffffffffffffffULL)).castToF64();
     case Type::v128:
     case Type::exnref:
+    case Type::funcref:
+    case Type::anyref:
     case Type::none:
     case Type::unreachable:
       WASM_UNREACHABLE();
@@ -616,6 +626,8 @@ Literal Literal::add(const Literal& other) const {
       return Literal(getf64() + other.getf64());
     case Type::v128:
     case Type::exnref:
+    case Type::funcref:
+    case Type::anyref:
     case Type::none:
     case Type::unreachable:
       WASM_UNREACHABLE();
@@ -635,6 +647,8 @@ Literal Literal::sub(const Literal& other) const {
       return Literal(getf64() - other.getf64());
     case Type::v128:
     case Type::exnref:
+    case Type::funcref:
+    case Type::anyref:
     case Type::none:
     case Type::unreachable:
       WASM_UNREACHABLE();
@@ -725,6 +739,8 @@ Literal Literal::mul(const Literal& other) const {
       return Literal(getf64() * other.getf64());
     case Type::v128:
     case Type::exnref:
+    case Type::funcref:
+    case Type::anyref:
     case Type::none:
     case Type::unreachable:
       WASM_UNREACHABLE();
@@ -943,6 +959,8 @@ Literal Literal::eq(const Literal& other) const {
       return Literal(getf64() == other.getf64());
     case Type::v128:
     case Type::exnref:
+    case Type::funcref:
+    case Type::anyref:
     case Type::none:
     case Type::unreachable:
       WASM_UNREACHABLE();
@@ -962,6 +980,8 @@ Literal Literal::ne(const Literal& other) const {
       return Literal(getf64() != other.getf64());
     case Type::v128:
     case Type::exnref:
+    case Type::funcref:
+    case Type::anyref:
     case Type::none:
     case Type::unreachable:
       WASM_UNREACHABLE();

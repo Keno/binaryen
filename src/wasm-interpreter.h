@@ -1035,6 +1035,8 @@ public:
   Flow visitLocalGet(LocalGet*) { WASM_UNREACHABLE(); }
   Flow visitLocalSet(LocalSet*) { WASM_UNREACHABLE(); }
   Flow visitGlobalSet(GlobalSet*) { WASM_UNREACHABLE(); }
+  Flow visitTableGet(TableGet*) { WASM_UNREACHABLE(); }
+  Flow visitTableSet(TableSet*) { WASM_UNREACHABLE(); }
   Flow visitLoad(Load* curr) { WASM_UNREACHABLE(); }
   Flow visitStore(Store* curr) { WASM_UNREACHABLE(); }
   Flow visitHost(Host* curr) { WASM_UNREACHABLE(); }
@@ -1139,6 +1141,8 @@ public:
         case v128:
           return Literal(load128(addr).data());
         case exnref: // exnref cannot be loaded from memory
+        case funcref:
+        case anyref:
         case none:
         case unreachable:
           WASM_UNREACHABLE();
@@ -1193,6 +1197,8 @@ public:
           store128(addr, value.getv128());
           break;
         case exnref: // exnref cannot be stored in memory
+        case funcref:
+        case anyref:
         case none:
         case unreachable:
           WASM_UNREACHABLE();

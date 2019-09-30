@@ -593,6 +593,8 @@ struct Reducer
                 break;
               case v128:
               case exnref:
+              case funcref:
+              case anyref:
                 continue; // not implemented yet
               case none:
               case unreachable:
@@ -615,6 +617,8 @@ struct Reducer
                 break;
               case v128:
               case exnref:
+              case funcref:
+              case anyref:
                 continue; // not implemented yet
               case none:
               case unreachable:
@@ -637,6 +641,8 @@ struct Reducer
                 break;
               case v128:
               case exnref:
+              case funcref:
+              case anyref:
                 continue; // not implemented yet
               case none:
               case unreachable:
@@ -659,6 +665,8 @@ struct Reducer
                 WASM_UNREACHABLE();
               case v128:
               case exnref:
+              case funcref:
+              case anyref:
                 continue; // not implemented yet
               case none:
               case unreachable:
@@ -668,6 +676,8 @@ struct Reducer
           }
           case v128:
           case exnref:
+          case funcref:
+          case anyref:
             continue; // not implemented yet
           case none:
           case unreachable:

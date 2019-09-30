@@ -48,6 +48,8 @@ template<typename SubType, typename ReturnType = void> struct Visitor {
   ReturnType visitLocalSet(LocalSet* curr) { return ReturnType(); }
   ReturnType visitGlobalGet(GlobalGet* curr) { return ReturnType(); }
   ReturnType visitGlobalSet(GlobalSet* curr) { return ReturnType(); }
+  ReturnType visitTableGet(TableGet* curr) { return ReturnType(); }
+  ReturnType visitTableSet(TableSet* curr) { return ReturnType(); }
   ReturnType visitLoad(Load* curr) { return ReturnType(); }
   ReturnType visitStore(Store* curr) { return ReturnType(); }
   ReturnType visitAtomicRMW(AtomicRMW* curr) { return ReturnType(); }
@@ -200,6 +202,8 @@ struct OverriddenVisitor {
   UNIMPLEMENTED(LocalSet);
   UNIMPLEMENTED(GlobalGet);
   UNIMPLEMENTED(GlobalSet);
+  UNIMPLEMENTED(TableGet);
+  UNIMPLEMENTED(TableSet);
   UNIMPLEMENTED(Load);
   UNIMPLEMENTED(Store);
   UNIMPLEMENTED(AtomicRMW);
@@ -267,6 +271,10 @@ struct OverriddenVisitor {
         DELEGATE(GlobalGet);
       case Expression::Id::GlobalSetId:
         DELEGATE(GlobalSet);
+      case Expression::Id::TableGetId:
+        DELEGATE(TableGet);
+      case Expression::Id::TableSetId:
+        DELEGATE(TableSet);
       case Expression::Id::LoadId:
         DELEGATE(Load);
       case Expression::Id::StoreId:
@@ -657,6 +665,12 @@ struct Walker : public VisitorType {
   static void doVisitGlobalSet(SubType* self, Expression** currp) {
     self->visitGlobalSet((*currp)->cast<GlobalSet>());
   }
+  static void doVisitTableGet(SubType* self, Expression** currp) {
+    self->visitTableGet((*currp)->cast<TableGet>());
+  }
+  static void doVisitTableSet(SubType* self, Expression** currp) {
+    self->visitTableSet((*currp)->cast<TableSet>());
+  }
   static void doVisitLoad(SubType* self, Expression** currp) {
     self->visitLoad((*currp)->cast<Load>());
   }
@@ -826,6 +840,17 @@ struct PostWalker : public Walker<SubType, VisitorType> {
       case Expression::Id::GlobalSetId: {
         self->pushTask(SubType::doVisitGlobalSet, currp);
         self->pushTask(SubType::scan, &curr->cast<GlobalSet>()->value);
+        break;
+      }
+      case Expression::Id::TableGetId: {
+        self->pushTask(SubType::doVisitTableGet, currp);
+        self->pushTask(SubType::scan, &curr->cast<TableGet>()->slot);
+        break;
+      }
+      case Expression::Id::TableSetId: {
+        self->pushTask(SubType::doVisitTableSet, currp);
+        self->pushTask(SubType::scan, &curr->cast<TableSet>()->slot);
+        self->pushTask(SubType::scan, &curr->cast<TableSet>()->value);
         break;
       }
       case Expression::Id::LoadId: {

@@ -677,6 +677,8 @@ public:
         value = Literal(bytes.data());
         break;
       }
+      case funcref:
+      case anyref:
       case exnref:
         // TODO Implement and return nullref
         assert(false && "exnref not implemented yet");

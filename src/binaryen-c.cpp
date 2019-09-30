@@ -71,6 +71,8 @@ BinaryenLiteral toBinaryenLiteral(Literal x) {
     }
 
     case Type::exnref: // there's no exnref literals
+    case Type::funcref:
+    case Type::anyref:
     case Type::none:
     case Type::unreachable:
       WASM_UNREACHABLE();

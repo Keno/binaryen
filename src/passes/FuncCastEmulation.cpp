@@ -66,6 +66,8 @@ static Expression* toABI(Expression* value, Module* module) {
       assert(false && "v128 not implemented yet");
       WASM_UNREACHABLE();
     }
+    case anyref:
+    case funcref:
     case exnref: {
       assert(false && "exnref cannot be converted to i64");
       WASM_UNREACHABLE();
@@ -108,6 +110,8 @@ static Expression* fromABI(Expression* value, Type type, Module* module) {
       assert(false && "v128 not implemented yet");
       WASM_UNREACHABLE();
     }
+    case funcref:
+    case anyref:
     case exnref: {
       assert(false && "exnref cannot be converted from i64");
       WASM_UNREACHABLE();

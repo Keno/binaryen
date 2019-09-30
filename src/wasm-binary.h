@@ -381,6 +381,7 @@ enum EncodedType {
   v128 = -0x5, // 0x7b
   // elem_type
   AnyFunc = -0x10, // 0x70
+  AnyRef = -0x11, // 0x6F
   // reference type
   exnref = -0x18, // 0x68
   // func_type form
@@ -441,6 +442,9 @@ enum ASTNodes {
   LocalTee = 0x22,
   GlobalGet = 0x23,
   GlobalSet = 0x24,
+
+  TableGet = 0x25,
+  TableSet = 0x26,
 
   I32LoadMem = 0x28,
   I64LoadMem = 0x29,
@@ -896,6 +900,12 @@ inline S32LEB binaryType(Type type) {
     case exnref:
       ret = BinaryConsts::EncodedType::exnref;
       break;
+    case funcref:
+      ret = BinaryConsts::EncodedType::AnyFunc;
+      break;
+    case Type::anyref:
+      ret = BinaryConsts::EncodedType::AnyRef;
+      break;
     case unreachable:
       WASM_UNREACHABLE();
   }
@@ -1206,6 +1216,8 @@ public:
   void visitLocalSet(LocalSet* curr, uint8_t code);
   void visitGlobalGet(GlobalGet* curr);
   void visitGlobalSet(GlobalSet* curr);
+  void visitTableGet(TableGet* curr);
+  void visitTableSet(TableSet* curr);
   void readMemoryAccess(Address& alignment, Address& offset);
   bool maybeVisitLoad(Expression*& out, uint8_t code, bool isAtomic);
   bool maybeVisitStore(Expression*& out, uint8_t code, bool isAtomic);

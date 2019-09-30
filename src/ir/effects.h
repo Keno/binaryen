@@ -243,6 +243,8 @@ struct EffectAnalyzer
   void visitLocalSet(LocalSet* curr) { localsWritten.insert(curr->index); }
   void visitGlobalGet(GlobalGet* curr) { globalsRead.insert(curr->name); }
   void visitGlobalSet(GlobalSet* curr) { globalsWritten.insert(curr->name); }
+  void visitTableGet(TableGet* curr) {}
+  void visitTableSet(TableSet* curr) {}
   void visitLoad(Load* curr) {
     readsMemory = true;
     isAtomic |= curr->isAtomic;

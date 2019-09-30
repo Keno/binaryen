@@ -90,6 +90,15 @@ void BinaryInstWriter::visitGlobalSet(GlobalSet* curr) {
   o << int8_t(BinaryConsts::GlobalSet)
     << U32LEB(parent.getGlobalIndex(curr->name));
 }
+void BinaryInstWriter::visitTableGet(TableGet* curr) {
+  o << int8_t(BinaryConsts::TableGet)
+    << curr->index;
+}
+
+void BinaryInstWriter::visitTableSet(TableSet* curr) {
+  o << int8_t(BinaryConsts::TableSet)
+    << curr->index;
+}
 
 void BinaryInstWriter::visitLoad(Load* curr) {
   if (!curr->isAtomic) {
@@ -148,6 +157,8 @@ void BinaryInstWriter::visitLoad(Load* curr) {
         // a load
         return;
       case exnref: // exnref cannot be loaded from memory
+      case funcref:
+      case anyref:
       case none:
         WASM_UNREACHABLE();
     }
@@ -247,6 +258,8 @@ void BinaryInstWriter::visitStore(Store* curr) {
           << U32LEB(BinaryConsts::V128Store);
         break;
       case exnref: // exnref cannot be stored in memory
+      case funcref:
+      case anyref:
       case none:
       case unreachable:
         WASM_UNREACHABLE();
@@ -581,6 +594,8 @@ void BinaryInstWriter::visitConst(Const* curr) {
       break;
     }
     case exnref: // there's no exnref.const
+    case funcref:
+    case anyref:
     case none:
     case unreachable:
       WASM_UNREACHABLE();

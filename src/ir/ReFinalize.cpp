@@ -133,6 +133,8 @@ void ReFinalize::visitLocalGet(LocalGet* curr) { curr->finalize(); }
 void ReFinalize::visitLocalSet(LocalSet* curr) { curr->finalize(); }
 void ReFinalize::visitGlobalGet(GlobalGet* curr) { curr->finalize(); }
 void ReFinalize::visitGlobalSet(GlobalSet* curr) { curr->finalize(); }
+void ReFinalize::visitTableGet(TableGet* curr) { curr->finalize(); }
+void ReFinalize::visitTableSet(TableSet* curr) { curr->finalize(); }
 void ReFinalize::visitLoad(Load* curr) { curr->finalize(); }
 void ReFinalize::visitStore(Store* curr) { curr->finalize(); }
 void ReFinalize::visitAtomicRMW(AtomicRMW* curr) { curr->finalize(); }

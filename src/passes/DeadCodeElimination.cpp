@@ -260,6 +260,10 @@ struct DeadCodeElimination
           DELEGATE(GlobalGet);
         case Expression::Id::GlobalSetId:
           DELEGATE(GlobalSet);
+        case Expression::Id::TableGetId:
+          DELEGATE(TableGet);
+        case Expression::Id::TableSetId:
+          DELEGATE(TableSet);
         case Expression::Id::LoadId:
           DELEGATE(Load);
         case Expression::Id::StoreId:

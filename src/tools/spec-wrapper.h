@@ -49,6 +49,8 @@ static std::string generateSpecWrapper(Module& wasm) {
           ret += "(v128.const i32x4 0 0 0 0)";
           break;
         case exnref: // there's no exnref.const
+        case funcref:
+        case anyref:
         case none:
         case unreachable:
           WASM_UNREACHABLE();

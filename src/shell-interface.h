@@ -114,6 +114,8 @@ struct ShellExternalInterface : ModuleInstance::ExternalInterface {
             break;
           case v128:
             assert(false && "v128 not implemented yet");
+          case anyref:
+          case funcref:
           case exnref:
             assert(false && "exnref not implemented yet");
           case none:

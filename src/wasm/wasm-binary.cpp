@@ -1087,6 +1087,10 @@ Type WasmBinaryBuilder::getType() {
       return v128;
     case BinaryConsts::EncodedType::exnref:
       return exnref;
+    case BinaryConsts::EncodedType::AnyRef:
+      return anyref;
+    case BinaryConsts::EncodedType::AnyFunc:
+      return funcref;
     default: { throwError("invalid wasm type: " + std::to_string(type)); }
   }
   WASM_UNREACHABLE();
@@ -2242,6 +2246,12 @@ BinaryConsts::ASTNodes WasmBinaryBuilder::readExpression(Expression*& curr) {
     case BinaryConsts::GlobalSet:
       visitGlobalSet((curr = allocator.alloc<GlobalSet>())->cast<GlobalSet>());
       break;
+    case BinaryConsts::TableGet:
+      visitTableGet((curr = allocator.alloc<TableGet>())->cast<TableGet>());
+      break;
+    case BinaryConsts::TableSet:
+      visitTableSet((curr = allocator.alloc<TableSet>())->cast<TableSet>());
+      break;
     case BinaryConsts::Select:
       visitSelect((curr = allocator.alloc<Select>())->cast<Select>());
       break;
@@ -2696,6 +2706,25 @@ void WasmBinaryBuilder::visitGlobalSet(GlobalSet* curr) {
   }
   auto index = getU32LEB();
   curr->name = getGlobalName(index);
+  curr->value = popNonVoidExpression();
+  curr->finalize();
+}
+
+void WasmBinaryBuilder::visitTableGet(TableGet* curr) {
+  if (debug) {
+    std::cerr << "zz node: TableGet " << pos << std::endl;
+  }
+  curr->index = getU32LEB();
+  curr->slot = popNonVoidExpression();
+  curr->finalize();
+}
+
+void WasmBinaryBuilder::visitTableSet(TableSet* curr) {
+  if (debug) {
+    std::cerr << "zz node: TableSet" << std::endl;
+  }
+  curr->index = getU32LEB();
+  curr->slot = popNonVoidExpression();
   curr->value = popNonVoidExpression();
   curr->finalize();
 }

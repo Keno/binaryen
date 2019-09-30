@@ -81,6 +81,8 @@ struct InstrumentLocals : public WalkerPass<PostWalker<InstrumentLocals>> {
         break;
       case v128:
         assert(false && "v128 not implemented yet");
+      case funcref:
+      case anyref:
       case exnref:
         assert(false && "not implemented yet");
       case none:
@@ -113,6 +115,8 @@ struct InstrumentLocals : public WalkerPass<PostWalker<InstrumentLocals>> {
         break;
       case v128:
         assert(false && "v128 not implemented yet");
+      case anyref:
+      case funcref:
       case exnref:
         assert(false && "exnref not implemented yet");
       case unreachable:

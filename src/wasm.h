@@ -453,6 +453,8 @@ public:
     LocalSetId,
     GlobalGetId,
     GlobalSetId,
+    TableGetId,
+    TableSetId,
     LoadId,
     StoreId,
     ConstId,
@@ -689,6 +691,29 @@ public:
   GlobalSet(MixedArena& allocator) {}
 
   Name name;
+  Expression* value;
+
+  void finalize();
+};
+
+class TableGet : public SpecificExpression<Expression::TableGetId> {
+public:
+  TableGet() = default;
+  TableGet(MixedArena& allocator) {}
+
+  Index index;
+  Expression* slot;
+
+  void finalize();
+};
+
+class TableSet : public SpecificExpression<Expression::TableSetId> {
+public:
+  TableSet() = default;
+  TableSet(MixedArena& allocator) {}
+
+  Index index;
+  Expression* slot;
   Expression* value;
 
   void finalize();

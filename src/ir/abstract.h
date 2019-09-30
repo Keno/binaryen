@@ -81,6 +81,8 @@ inline UnaryOp getUnary(Type type, Op op) {
       assert(false && "v128 not implemented yet");
       WASM_UNREACHABLE();
     }
+    case funcref:
+    case anyref:
     case exnref: // there's no unary instructions for exnref
     case none:
     case unreachable: {
@@ -213,6 +215,8 @@ inline BinaryOp getBinary(Type type, Op op) {
       WASM_UNREACHABLE();
     }
     case exnref: // there's no binary instructions for exnref
+    case funcref:
+    case anyref:
     case none:
     case unreachable: {
       return InvalidBinary;

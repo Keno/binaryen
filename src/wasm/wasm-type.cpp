@@ -38,6 +38,10 @@ const char* printType(Type type) {
       return "v128";
     case Type::exnref:
       return "exnref";
+    case Type::funcref:
+      return "funcref";
+    case Type::anyref:
+      return "anyref";
     case Type::unreachable:
       return "unreachable";
   }
@@ -57,6 +61,8 @@ unsigned getTypeSize(Type type) {
     case Type::v128:
       return 16;
     case Type::exnref: // exnref type is opaque
+    case Type::anyref:
+    case Type::funcref:
     case Type::none:
     case Type::unreachable:
       WASM_UNREACHABLE();
@@ -133,6 +139,8 @@ Type reinterpretType(Type type) {
       return i64;
     case Type::v128:
     case Type::exnref:
+    case Type::anyref:
+    case Type::funcref:
     case Type::none:
     case Type::unreachable:
       WASM_UNREACHABLE();

@@ -116,6 +116,10 @@ const char* getExpressionName(Expression* curr) {
       return "global.get";
     case Expression::Id::GlobalSetId:
       return "global.set";
+    case Expression::Id::TableGetId:
+      return "table.get";
+    case Expression::Id::TableSetId:
+      return "table.set";
     case Expression::Id::LoadId:
       return "load";
     case Expression::Id::StoreId:
@@ -473,6 +477,19 @@ void LocalSet::finalize() {
 
 void GlobalSet::finalize() {
   if (value->type == unreachable) {
+    type = unreachable;
+  }
+}
+
+void TableGet::finalize() {
+  if (slot->type == unreachable) {
+    type = unreachable;
+  }
+}
+
+void TableSet::finalize() {
+  if (slot->type == unreachable ||
+      value->type == unreachable) {
     type = unreachable;
   }
 }

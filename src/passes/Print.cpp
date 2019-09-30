@@ -140,6 +140,12 @@ struct PrintExpressionContents
     printMedium(o, "global.set ");
     printName(curr->name, o);
   }
+  void visitTableGet(TableGet* curr) {
+    printMedium(o, "table.get ") << printableLocal(curr->index, currFunction);
+  }
+  void visitTableSet(TableSet* curr) {
+    printMedium(o, "table.set ") << printableLocal(curr->index, currFunction);
+  }
   void visitLoad(Load* curr) {
     prepareColor(o) << printType(curr->type);
     if (curr->isAtomic) {
@@ -1439,6 +1445,21 @@ struct PrintSExpression : public OverriddenVisitor<PrintSExpression> {
     o << '(';
     PrintExpressionContents(currFunction, o).visit(curr);
     incIndent();
+    printFullLine(curr->value);
+    decIndent();
+  }
+  void visitTableGet(TableGet* curr) {
+    o << '(';
+    PrintExpressionContents(currFunction, o).visit(curr);
+    incIndent();
+    printFullLine(curr->slot);
+    o << ')';
+  }
+  void visitTableSet(TableSet* curr) {
+    o << '(';
+    PrintExpressionContents(currFunction, o).visit(curr);
+    incIndent();
+    printFullLine(curr->slot);
     printFullLine(curr->value);
     decIndent();
   }

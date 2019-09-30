@@ -1223,6 +1223,14 @@ Ref Wasm2JSBuilder::processFunctionBody(Module* m,
       return makeSetVar(curr, curr->value, curr->name, NameScope::Top);
     }
 
+    Ref visitTableGet(TableGet* curr) {
+      WASM_UNREACHABLE();
+    }
+
+    Ref visitTableSet(TableSet* curr) {
+      WASM_UNREACHABLE();
+    }
+
     Ref visitLoad(Load* curr) {
       // Unaligned loads and stores must have been fixed up already.
       assert(curr->align == 0 || curr->align == curr->bytes);

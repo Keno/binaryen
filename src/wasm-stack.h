@@ -94,6 +94,8 @@ public:
   void visitLocalSet(LocalSet* curr);
   void visitGlobalGet(GlobalGet* curr);
   void visitGlobalSet(GlobalSet* curr);
+  void visitTableGet(TableGet* curr);
+  void visitTableSet(TableSet* curr);
   void visitLoad(Load* curr);
   void visitStore(Store* curr);
   void visitAtomicRMW(AtomicRMW* curr);
@@ -164,6 +166,8 @@ public:
   void visitLocalSet(LocalSet* curr);
   void visitGlobalGet(GlobalGet* curr);
   void visitGlobalSet(GlobalSet* curr);
+  void visitTableGet(TableGet* curr);
+  void visitTableSet(TableSet* curr);
   void visitLoad(Load* curr);
   void visitStore(Store* curr);
   void visitAtomicRMW(AtomicRMW* curr);
@@ -425,6 +429,20 @@ void BinaryenIRWriter<SubType>::visitGlobalSet(GlobalSet* curr) {
   visit(curr->value);
   emit(curr);
 }
+
+template<typename SubType>
+void BinaryenIRWriter<SubType>::visitTableGet(TableGet* curr) {
+  visit(curr->slot);
+  emit(curr);
+}
+
+template<typename SubType>
+void BinaryenIRWriter<SubType>::visitTableSet(TableSet* curr) {
+  visit(curr->slot);
+  visit(curr->value);
+  emit(curr);
+}
+
 
 template<typename SubType>
 void BinaryenIRWriter<SubType>::visitLoad(Load* curr) {

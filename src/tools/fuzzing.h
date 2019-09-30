@@ -852,6 +852,8 @@ private:
       case f64:
       case v128:
       case exnref:
+      case funcref:
+      case anyref:
         ret = _makeConcrete(type);
         break;
       case none:
@@ -1371,6 +1373,8 @@ private:
           16, false, offset, pick(1, 2, 4, 8, 16), ptr, type);
       }
       case exnref: // exnref cannot be loaded from memory
+      case funcref:
+      case anyref:
       case none:
       case unreachable:
         WASM_UNREACHABLE();
@@ -1472,6 +1476,8 @@ private:
           16, offset, pick(1, 2, 4, 8, 16), ptr, value, type);
       }
       case exnref: // exnref cannot be stored in memory
+      case funcref:
+      case anyref:
       case none:
       case unreachable:
         WASM_UNREACHABLE();
@@ -1567,6 +1573,8 @@ private:
             return Literal(getDouble());
           case v128:
           case exnref: // exnref cannot have literals
+          case funcref:
+          case anyref:
           case none:
           case unreachable:
             WASM_UNREACHABLE();
@@ -1608,6 +1616,8 @@ private:
           case f64:
             return Literal(double(small));
           case v128:
+          case funcref:
+          case anyref:
           case exnref: // exnref cannot have literals
           case none:
           case unreachable:
@@ -1674,6 +1684,8 @@ private:
             break;
           case v128:
           case exnref: // exnref cannot have literals
+          case funcref:
+          case anyref:
           case none:
           case unreachable:
             WASM_UNREACHABLE();
@@ -1705,6 +1717,8 @@ private:
             break;
           case v128:
           case exnref: // exnref cannot have literals
+          case funcref:
+          case anyref:
           case none:
           case unreachable:
             WASM_UNREACHABLE();
@@ -1803,6 +1817,8 @@ private:
                                make(v128)});
           }
           case exnref: // there's no unary ops for exnref
+          case funcref:
+          case anyref:
           case none:
           case unreachable:
             WASM_UNREACHABLE();
@@ -1934,6 +1950,8 @@ private:
         WASM_UNREACHABLE();
       }
       case exnref: // there's no unary ops for exnref
+      case funcref:
+      case anyref:
       case none:
       case unreachable:
         WASM_UNREACHABLE();
@@ -2147,6 +2165,8 @@ private:
                             make(v128)});
       }
       case exnref: // there's no binary ops for exnref
+      case funcref:
+      case anyref:
       case none:
       case unreachable:
         WASM_UNREACHABLE();
@@ -2341,6 +2361,8 @@ private:
         break;
       case v128:
       case exnref:
+      case funcref:
+      case anyref:
       case none:
       case unreachable:
         WASM_UNREACHABLE();

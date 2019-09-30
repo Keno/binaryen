@@ -148,6 +148,8 @@ template<typename T> void visitImmediates(Expression* curr, T& visitor) {
     void visitGlobalSet(GlobalSet* curr) {
       visitor.visitNonScopeName(curr->name);
     }
+    void visitTableGet(TableGet* curr) { visitor.visitIndex(curr->index); }
+    void visitTableSet(TableSet* curr) { visitor.visitIndex(curr->index); }
     void visitLoad(Load* curr) {
       visitor.visitInt(curr->bytes);
       if (curr->type != unreachable && curr->bytes < getTypeSize(curr->type)) {
